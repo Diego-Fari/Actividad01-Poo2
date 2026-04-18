@@ -37,4 +37,41 @@ public class HomeController extends Controller {
 	public void showEventForm() { loadView("EventFormView"); }
 
 	public void showEventList() {
-		eventModel.not
+		eventModel.notifyViews();
+		loadView("EventListView");
+	}
+
+	public void showGuestForm() {
+		eventModel.notifyViews();
+		loadView("GuestFormView");
+	}
+
+	public void registerEvent(String name, String date, String location) {
+		if (name.isEmpty() || date.isEmpty() || location.isEmpty()) {
+			JOptionPane.showMessageDialog(mainFrame, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		eventModel.addEvent(new Event(name, date, location));
+		JOptionPane.showMessageDialog(mainFrame, "Evento registrado exitosamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+		showHome();
+	}
+
+	public void deleteEvent(int eventId) {
+		int confirm = JOptionPane.showConfirmDialog(mainFrame, "Seguro de eliminar este evento?", "Confirmar", JOptionPane.YES_NO_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			eventModel.removeEvent(eventId);
+		}
+	}
+
+	public void registerGuest(int eventId, String name, String email, String phone) {
+		if (name.isEmpty() || email.isEmpty()) {
+			JOptionPane.showMessageDialog(mainFrame, "Nombre y email son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		eventModel.addGuestToEvent(eventId, new Guest(name, email, phone));
+		JOptionPane.showMessageDialog(mainFrame, "Invitado registrado exitosamente.", "Exito", JOptionPane.INFORMATION_MESSAGE);
+		showHome();
+	}
+
+	public EventModel getEventModel() { return eventModel; }
+}

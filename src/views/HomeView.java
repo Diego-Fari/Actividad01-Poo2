@@ -39,3 +39,20 @@ public class HomeView extends JPanel implements View {
 		JButton btnList = new JButton("Listar Eventos");
 		JButton btnDelete = new JButton("Eliminar Evento");
 		JButton btnGuest = new JButton("Registrar Invitado");
+
+		btnNew.addActionListener(e -> homeController.showEventForm());
+		btnList.addActionListener(e -> homeController.showEventList());
+		btnDelete.addActionListener(e -> homeController.showEventList());
+		btnGuest.addActionListener(e -> homeController.showGuestForm());
+
+		btnPanel.add(btnNew);
+		btnPanel.add(btnList);
+		btnPanel.add(btnDelete);
+		btnPanel.add(btnGuest);
+		add(btnPanel, BorderLayout.CENTER);
+	}
+
+	@Override
+	public void update(Model model, Object data) {}
+}
+
