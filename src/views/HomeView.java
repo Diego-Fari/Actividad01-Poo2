@@ -1,66 +1,41 @@
 package views;
 
-import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 import controllers.HomeController;
 import core.Model;
 import core.View;
 
-
-/**
- * View associated with {@link HomeController}. It will be responsible for program's 
- * main screen view.
- */
 @SuppressWarnings("serial")
-public class HomeView extends JPanel implements View
-{
-	//-----------------------------------------------------------------------
-	//		Attributes
-	//-----------------------------------------------------------------------
-	@SuppressWarnings("unused")
+public class HomeView extends JPanel implements View {
 	private HomeController homeController;
 	private JFrame mainFrame;
-	private final static int MAIN_FRAME_WIDTH = 800;
-	private final static int MAIN_FRAME_HEIGHT = 500;
-	private final static int MAIN_FRAME_X = 100;
-	private final static int MAIN_FRAME_Y = 100;
-	
-	
-	//-----------------------------------------------------------------------
-	//		Constructor
-	//-----------------------------------------------------------------------
-	/**
-	 * Initializes the view responsible for program's main screen.
-	 * 
-	 * @param homeController Controller responsible for this view
-	 * @param mainFrame Main frame / window of the application
-	 */
-	public HomeView(HomeController homeController, JFrame mainFrame)
-	{
+
+	public HomeView(HomeController homeController, JFrame mainFrame) {
 		this.homeController = homeController;
 		this.mainFrame = mainFrame;
-		
-		make_mainFrame();
+		setupMainFrame();
+		setupUI();
 	}
-	
-	
-	//-----------------------------------------------------------------------
-	//		Methods
-	//-----------------------------------------------------------------------
-	@Override
-	public void update(Model model, Object data) 
-	{}
-	
-	/**
-	 * Configures the main frame of the application.
-	 */
-	private void make_mainFrame()
-	{
-		mainFrame.setOpacity(1.0f);
+
+	private void setupMainFrame() {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setBounds(MAIN_FRAME_X, MAIN_FRAME_Y, MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT);
-		mainFrame.setMinimumSize(new Dimension(MAIN_FRAME_WIDTH, MAIN_FRAME_HEIGHT));
-		mainFrame.setTitle("MVC-in-Java");
+		mainFrame.setBounds(100, 100, 800, 500);
+		mainFrame.setMinimumSize(new Dimension(800, 500));
+		mainFrame.setTitle("Sistema de Gestion de Eventos");
 	}
-}
+
+	private void setupUI() {
+		setLayout(new BorderLayout());
+		JLabel title = new JLabel("Sistema de Gestion de Eventos", SwingConstants.CENTER);
+		title.setFont(new Font("Arial", Font.BOLD, 24));
+		title.setBorder(BorderFactory.createEmptyBorder(40, 0, 20, 0));
+		add(title, BorderLayout.NORTH);
+
+		JPanel btnPanel = new JPanel(new GridLayout(4, 1, 10, 10));
+		btnPanel.setBorder(BorderFactory.createEmptyBorder(20, 200, 80, 200));
+
+		JButton btnNew = new JButton("Registrar Nuevo Evento");
+		JButton btnList = new JButton("Listar Eventos");
+		JButton btnDelete = new JButton("Eliminar Evento");
+		JButton btnGuest = new JButton("Registrar Invitado");
