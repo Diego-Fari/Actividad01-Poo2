@@ -1,33 +1,33 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Event {
     private static int counter = 0;
     private int id;
-    private String name;
+    private String description;
+    private String email;
     private String date;
-    private String location;
-    private List<Guest> guests;
+    private String frequency;
+    private boolean alarm;
 
-    public Event(String name, String date, String location) {
+    public Event(String description, String email, String date, String frequency, boolean alarm) {
         this.id = ++counter;
-        this.name = name;
+        this.description = description;
+        this.email = email;
         this.date = date;
-        this.location = location;
-        this.guests = new ArrayList<>();
+        this.frequency = frequency;
+        this.alarm = alarm;
     }
 
     public int getId() { return id; }
-    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public String getEmail() { return email; }
     public String getDate() { return date; }
-    public String getLocation() { return location; }
-    public List<Guest> getGuests() { return guests; }
-    public void addGuest(Guest guest) { guests.add(guest); }
+    public String getFrequency() { return frequency; }
+    public boolean isAlarm() { return alarm; }
+    public String getAlarmText() { return alarm ? "ON" : "OFF"; }
 
     @Override
     public String toString() {
-        return id + " - " + name + " (" + date + ")";
+        return id + " - " + description + " (" + date + ")";
     }
 }

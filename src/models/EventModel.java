@@ -2,15 +2,18 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import core.Model;
 import core.View;
 
 public class EventModel implements Model {
     private List<Event> events;
+    private List<Guest> guests;
     private List<View> views;
 
     public EventModel() {
         this.events = new ArrayList<>();
+        this.guests = new ArrayList<>();
         this.views = new ArrayList<>();
     }
 
@@ -19,8 +22,8 @@ public class EventModel implements Model {
         notifyViews();
     }
 
-    public void removeEvent(int eventId) {
-        events.removeIf(e -> e.getId() == eventId);
+    public void removeEvents(List<Integer> eventIds) {
+        events.removeIf(e -> eventIds.contains(e.getId()));
         notifyViews();
     }
 
@@ -28,19 +31,22 @@ public class EventModel implements Model {
         return new ArrayList<>(events);
     }
 
-    public Event getEventById(int id) {
+    public List<Event> searchEvents(String keyword) {
+        String lower = keyword.toLowerCase();
         return events.stream()
-                .filter(e -> e.getId() == id)
-                .findFirst()
-                .orElse(null);
+                .filter(e -> e.getDescription().toLowerCase().contains(lower)
+                        || e.getDate().contains(lower)
+                        || e.getEmail().toLowerCase().contains(lower))
+                .collect(Collectors.toList());
     }
 
-    public void addGuestToEvent(int eventId, Guest guest) {
-        Event event = getEventById(eventId);
-        if (event != null) {
-            event.addGuest(guest);
-            notifyViews();
-        }
+    public void addGuest(Guest guest) {
+        guests.add(guest);
+        notifyViews();
+    }
+
+    public List<Guest> getGuests() {
+        return new ArrayList<>(guests);
     }
 
     @Override
