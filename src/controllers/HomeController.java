@@ -1,34 +1,40 @@
 package controllers;
 
-import java.awt.Component;
-import java.io.File;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 import core.Controller;
-import views.HomeView;
+import models.*;
+import views.*;
 
-
-/**
- * Main controller. It will be responsible for program's main screen behavior.
- */
-public class HomeController extends Controller 
-{
-	//-----------------------------------------------------------------------
-	//		Attributes
-	//-----------------------------------------------------------------------
+public class HomeController extends Controller {
 	private HomeView homeView;
-	
-	
-	//-----------------------------------------------------------------------
-	//		Methods
-	//-----------------------------------------------------------------------
+	private EventFormView eventFormView;
+	private EventListView eventListView;
+	private GuestFormView guestFormView;
+	private EventModel eventModel;
+
 	@Override
-	public void run()
-	{
-		// Initializes HomeView
+	public void run() {
+		eventModel = new EventModel();
+
 		homeView = new HomeView(this, mainFrame);
+		eventFormView = new EventFormView(this, mainFrame);
+		eventListView = new EventListView(this, mainFrame);
+		guestFormView = new GuestFormView(this, mainFrame);
+
+		eventModel.attach(eventListView);
+		eventModel.attach(guestFormView);
+
 		addView("HomeView", homeView);
-		
-		// Displays the program window
+		addView("EventFormView", eventFormView);
+		addView("EventListView", eventListView);
+		addView("GuestFormView", guestFormView);
+
+		loadView("HomeView");
 		mainFrame.setVisible(true);
 	}
-}
+
+	public void showHome() { loadView("HomeView"); }
+	public void showEventForm() { loadView("EventFormView"); }
+
+	public void showEventList() {
+		eventModel.not
